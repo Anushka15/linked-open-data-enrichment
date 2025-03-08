@@ -59,7 +59,7 @@ public class IeeeDataToRdfConversionService {
                 IeeeResponse ieeeResponseChunk = null;
                 try {
                     ieeeResponseChunk = objectMapper.readValue(responseBody, IeeeResponse.class);
-                    System.out.println(ieeeResponseChunk.getTotalRecords());
+                    //System.out.println(ieeeResponseChunk.getTotalRecords());
                     ieeeResponse.setTotalRecords(ieeeResponseChunk.getTotalRecords());
                     ieeeResponse.setTotalSearched(ieeeResponseChunk.getTotalSearched());
                     if(ieeeResponse.getIeeeDataObjects()==null){
@@ -72,6 +72,7 @@ public class IeeeDataToRdfConversionService {
                     totalRecords = ieeeResponseChunk.getTotalRecords();
 
                     url = baseUrl.concat("&start_record="+noOfRecords+"&max_records=200");
+                    LOGGER.info("Url generated:" + url);
                 } catch (JsonProcessingException e) {
                     ieeeResponse = null;
                     throw new RuntimeException(e);

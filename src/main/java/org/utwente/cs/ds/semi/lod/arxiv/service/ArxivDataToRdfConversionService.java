@@ -50,7 +50,7 @@ public class ArxivDataToRdfConversionService {
 
 
 
-        while(callCounter< 200 && noOfRecords <= totalRecords){
+        while(callCounter< 1000 && noOfRecords <= totalRecords){
             int responseCode = 0;
             HttpURLConnection con = null;
             try{
