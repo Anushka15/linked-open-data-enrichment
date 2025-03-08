@@ -18,9 +18,9 @@ public class SparqlQueryRunner {
 
     public static boolean findPublicationsByTopic(){
         boolean writtenToCsv = true;
-        List<String> filePaths = List.of("src/main/resources/rdf/scientificPublicationsArxiv.nt",
-                "src/main/resources/rdf/scientificPublicationsIEEE.nt",
-                "src/main/resources/rdf/scientificPublicationsDblp.nt");
+        List<String> filePaths = List.of("src/main/resources/rdf/2025/scientificPublicationsArxiv.nt",
+                "src/main/resources/rdf/2025/scientificPublicationsIEEE.nt",
+                "src/main/resources/rdf/2025/scientificPublicationsDblp.nt");
 
         // SPARQL query
         String query = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
