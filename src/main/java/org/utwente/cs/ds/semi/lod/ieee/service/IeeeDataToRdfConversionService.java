@@ -14,6 +14,7 @@ import org.utwente.cs.ds.semi.lod.ieee.scraping.request.ApiRequest;
 import org.utwente.cs.ds.semi.lod.ieee.scraping.service.QueryManager;
 import org.utwente.cs.ds.semi.lod.utils.RdfSchemaConstants;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -194,5 +195,20 @@ public class IeeeDataToRdfConversionService {
             return "";
         }
         return value;
+    }
+
+    public static boolean convertIeeeAPIResponseToJson(IeeeResponse ieeeResponse, String fileName) {
+        Boolean jsonCreated = true;
+        List<IeeeData> ieeeDataList = ieeeResponse.getIeeeDataObjects();
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            objectMapper.writeValue(new File(fileName), ieeeDataList);
+            System.out.println("JSON file created successfully for Ieee: "+fileName);
+        } catch (IOException e) {
+            jsonCreated = false;
+            e.printStackTrace();
+        }
+        return jsonCreated;
     }
 }

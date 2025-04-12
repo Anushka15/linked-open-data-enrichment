@@ -1,6 +1,7 @@
 package org.utwente.cs.ds.semi.lod.arxiv.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
@@ -10,6 +11,8 @@ import org.utwente.cs.ds.semi.lod.arxiv.model.Author;
 import org.utwente.cs.ds.semi.lod.arxiv.model.Entry;
 import org.utwente.cs.ds.semi.lod.arxiv.model.Feed;
 import org.utwente.cs.ds.semi.lod.arxiv.utils.ArxivConstants;
+import org.utwente.cs.ds.semi.lod.ieee.model.IeeeData;
+import org.utwente.cs.ds.semi.lod.ieee.model.support.IeeeResponse;
 import org.utwente.cs.ds.semi.lod.ieee.scraping.exception.ApplicationException;
 import org.utwente.cs.ds.semi.lod.utils.RdfSchemaConstants;
 
@@ -190,5 +193,20 @@ public class ArxivDataToRdfConversionService {
             return "";
         }
         return value;
+    }
+
+    public static boolean convertArxivAPIResponseToJson(Feed feed, String fileName) {
+        Boolean jsonCreated = true;
+        List<Entry> entryList = feed.getEntries();
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            objectMapper.writeValue(new File(fileName), entryList);
+            System.out.println("JSON file created successfully for Arxiv: "+fileName);
+        } catch (IOException e) {
+            jsonCreated = false;
+            e.printStackTrace();
+        }
+        return jsonCreated;
     }
 }

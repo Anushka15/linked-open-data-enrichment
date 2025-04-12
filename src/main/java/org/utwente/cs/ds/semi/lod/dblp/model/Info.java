@@ -2,6 +2,8 @@ package org.utwente.cs.ds.semi.lod.dblp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.List;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Info {
 
@@ -9,7 +11,7 @@ public class Info {
     private String title;
 
     private String pages;
-    private String year;
+    private List<String> year;
     private String type;
     private String access;
     private String key;
@@ -44,11 +46,12 @@ public class Info {
         this.pages = pages;
     }
 
-    public String getYear() {
+
+    public List<String> getYear() {
         return year;
     }
 
-    public void setYear(String year) {
+    public void setYear(List<String> year) {
         this.year = year;
     }
 

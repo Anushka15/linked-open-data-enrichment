@@ -62,7 +62,7 @@ public class DblpDataToRdfConversionService {
 
         int responseCode = 0;
         HttpURLConnection con = null;
-        while(callCounter <1 && noOfRecords <= totalRecords ){
+        while(callCounter <1000 && noOfRecords <= totalRecords ){
             try{
                 URL obj = new URL(url);
                 con = (HttpURLConnection) obj.openConnection();
@@ -92,6 +92,7 @@ public class DblpDataToRdfConversionService {
                     in.close();
                     Gson gson = new GsonBuilder()
                             .registerTypeAdapter(Authors.class, new AuthorsDeserializer())
+                            .registerTypeAdapter(Info.class, new InfoDeserializer())
                             .create();
 
 
@@ -101,7 +102,9 @@ public class DblpDataToRdfConversionService {
                         List<Hit> hitsList = new ArrayList<>();
                         hits.setHit(hitsList);
                     }
-                    hits.getHit().addAll(hitsChunk.getHit());
+                    if(hitsChunk!=null && hitsChunk.getHit()!=null){
+                        hits.getHit().addAll(hitsChunk.getHit());
+                    }
                     callCounter = callCounter + 1;
                     noOfRecords = noOfRecords + 1000;
                     totalRecords = Integer.parseInt(hitsChunk.getTotal());
@@ -299,5 +302,19 @@ public class DblpDataToRdfConversionService {
         }
 
         return primaryAffiliation;
+    }
+
+    public static boolean convertDblpAPIResponseToJson(Hits hits, String fileName) {
+        Boolean jsonCreated = true;
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            objectMapper.writeValue(new File(fileName), hits);
+            System.out.println("JSON file created successfully for DBLP: "+fileName);
+        } catch (IOException e) {
+            jsonCreated = false;
+            e.printStackTrace();
+        }
+        return jsonCreated;
     }
 }
